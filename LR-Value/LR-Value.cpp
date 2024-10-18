@@ -1,46 +1,40 @@
-﻿
-#include <iostream>
+﻿#include <iostream>
 
-
-void printValue(const int& x)
+void printValue(const int& x) noexcept
 {
-    std::cout << " &: "<<x<<"\n";
+	std::cout << " &: " << x << "\n";
 }
 
-void printValue(const int&& x)
+void printValue(const int&& x) noexcept
 {
-    std::cout << "&&: "<<x<<"\n";
+	std::cout << "&&: " << x << "\n";
 }
 
-class Przykład
+class LR_Value
 {
 public:
-    // Funkcja składowa wywoływana tylko na l-value
-    void pokaz()& {
-        std::cout << "Wywołano na l-value (trwały obiekt)\n";
-    }
+	// Funkcja składowa wywoływana tylko na l-value
+	void show() & noexcept
+	{
+		std::cout << "Called on l-value (persistent object)\n";
+	}
 
-    // Funkcja składowa wywoływana tylko na r-value
-    void pokaz()&& {
-        std::cout << "Wywołano na r-value (tymczasowy obiekt)\n";
-    }
+	// Funkcja składowa wywoływana tylko na r-value
+	void show() && noexcept
+	{
+		std::cout << "Called on r-value (temporary object)\n";
+	}
 };
 
 int main()
 {
-    setlocale(LC_CTYPE, "Polish");
+	int x{ 5 };
+	printValue(x);
+	printValue(10);
 
-    int x{ 5 };
-    printValue(x);
-    printValue(5);
+	LR_Value p;
+	p.show();
 
-    Przykład p;
-    p.pokaz();
-
-    Przykład().pokaz();
-
-
-
-
+	LR_Value().show();
 }
 
